@@ -1,7 +1,6 @@
 <script setup>
 import AppLayout from '@/Layouts/AppLayout.vue';
-import Welcome from '@/Components/Welcome.vue';
-import { Link } from '@inertiajs/vue3';
+
 </script>
 
 <template>
