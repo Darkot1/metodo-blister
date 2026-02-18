@@ -1,6 +1,6 @@
 <?php
 
-use App\Http\Controllers\Students\StudentController;
+use App\Http\Controllers\Alumnos\AlumnoController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -20,12 +20,13 @@ Route::middleware([
 
 
     // Rutas de alumnos
-    Route::controller(StudentController::class)->group(function () {
+    Route::controller(AlumnoController::class)->group(function () {
         Route::get('alumnos', 'index')->name('alumnos.index');
         Route::get('alumno/registrar', 'create')->name('alumnos.create');
         Route::post('alumno/registrar', 'store')->name('alumnos.store');
-        Route::get('alumno/{student}/editar', 'edit')->name('alumnos.edit');
-        Route::put('alumno/{student}', 'update')->name('alumnos.update');
-        Route::delete('alumno/{student}', 'destroy')->name('alumnos.destroy');
+        Route::get('alumno/{alumno}', 'show')->name('alumnos.show');
+        Route::get('alumno/{alumno}/editar', 'edit')->name('alumnos.edit');
+        Route::put('alumno/{alumno}', 'update')->name('alumnos.update');
+        Route::delete('alumno/{alumno}', 'destroy')->name('alumnos.destroy');
     });
 });
