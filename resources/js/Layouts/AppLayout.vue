@@ -78,7 +78,7 @@ const logout = () => {
                     </p>
                     <Link :href="route('alumnos.index')"
                         class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm text-gray-300 hover:bg-gray-700 hover:text-white transition-colors"
-                        :class="{ 'bg-blue-600 text-white': route().current('alumnos.*') }">
+                        :class="{ 'bg-blue-600 text-white': route().current('alumnos.index') }">
                         <svg class="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                 d="M12 4.354a4 4 0 110 5.292M15 12H9m6 0a6 6 0 11-12 0 6 6 0 0112 0z" />
@@ -137,7 +137,7 @@ const logout = () => {
             </header>
 
             <!-- Contenido dinámico -->
-            <main class="flex-1 overflow-y-auto p-8 bg-gray-50 min-w-0">
+            <main class="flex-1 overflow-y-auto p-8 bg-slate-950 min-w-0">
                 <slot />
             </main>
         </div>
@@ -146,6 +146,10 @@ const logout = () => {
 
 
 <style scoped>
+.font-display {
+    font-family: 'Oswald', sans-serif;
+}
+
 ::-webkit-scrollbar {
     width: 8px;
 }
