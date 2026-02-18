@@ -3,7 +3,7 @@ import AppLayout from '@/Layouts/AppLayout.vue';
 import EstadoBadge from '@/Components/EstadoBadge.vue';
 import InfoCard from '@/Components/InfoCard.vue';
 import { useAlumno } from '@/Composables/useAlumno';
-import { Link } from '@inertiajs/vue3';
+import { Link, useForm } from '@inertiajs/vue3';
 
 const props = defineProps({
     alumno: {
@@ -13,6 +13,14 @@ const props = defineProps({
 })
 
 const { calcularEdad, formatearFecha } = useAlumno()
+
+const deleteForm = useForm({});
+
+const destroyAlumno = () => {
+    if (window.confirm('¿Seguro que quieres eliminar este alumno? Esta acción no se puede deshacer.')) {
+        deleteForm.delete(route('alumnos.destroy', props.alumno.id));
+    }
+};
 </script>
 
 <template>
@@ -37,10 +45,16 @@ const { calcularEdad, formatearFecha } = useAlumno()
                         <p class="text-slate-400 mt-1 capitalize">{{ alumno.genero }}</p>
                     </div>
                 </div>
-                <Link :href="route('alumnos.edit', alumno.id)"
-                    class="bg-blue-600 text-white px-6 py-3 rounded-xl font-semibold hover:bg-blue-500 transition shadow-lg shadow-blue-600/30">
-                    Editar Alumno
-                </Link>
+                <div class="flex items-center gap-3">
+                    <button type="button" @click="destroyAlumno" :disabled="deleteForm.processing"
+                        class="border border-red-500/40 text-red-200 px-6 py-3 rounded-xl font-semibold hover:bg-red-500/10 transition disabled:opacity-50 disabled:cursor-not-allowed">
+                        Eliminar
+                    </button>
+                    <Link :href="route('alumnos.edit', alumno.id)"
+                        class="bg-blue-600 text-white px-6 py-3 rounded-xl font-semibold hover:bg-blue-500 transition shadow-lg shadow-blue-600/30">
+                        Editar Alumno
+                    </Link>
+                </div>
             </div>
 
             <div class="grid lg:grid-cols-3 gap-6">

@@ -3,6 +3,7 @@
 namespace App\Http\Requests\Alumnos;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class AlumnoRequest extends FormRequest
 {
@@ -21,6 +22,8 @@ class AlumnoRequest extends FormRequest
      */
     public function rules(): array
     {
+        $alumnoId = $this->route('alumno')?->id;
+
         return [
             'nombres'          => 'required|string|max:255',
             'apellidos'        => 'required|string|max:255',
@@ -29,7 +32,7 @@ class AlumnoRequest extends FormRequest
             'altura_cm'        => 'required|integer|min:1',
             'peso_inicial_kg'  => 'nullable|numeric|min:0',
             'telefono'         => 'nullable|string|max:50',
-            'email'            => 'nullable|email|unique:alumnos,email',
+            'email'            => ['nullable', 'email', Rule::unique('alumnos', 'email')->ignore($alumnoId)],
             'objetivo'         => 'nullable|string',
             'estado'           => 'required|in:activo,en_pausa,inactivo',
             'notas'            => 'nullable|string',

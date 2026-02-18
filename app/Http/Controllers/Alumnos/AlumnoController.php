@@ -49,7 +49,7 @@ class AlumnoController extends Controller
      */
     public function edit(Alumno $alumno)
     {
-        //
+        return Inertia::render('Alumnos/AlumnosEdit', compact('alumno'));
     }
 
     /**
@@ -57,7 +57,9 @@ class AlumnoController extends Controller
      */
     public function update(AlumnoRequest $request, Alumno $alumno)
     {
-        //
+        $alumno->update($request->validated());
+
+        return redirect()->route('alumnos.show', $alumno);
     }
 
     /**
@@ -65,6 +67,8 @@ class AlumnoController extends Controller
      */
     public function destroy(Alumno $alumno)
     {
-        //
+        $alumno->delete();
+
+        return redirect()->route('alumnos.index');
     }
 }
