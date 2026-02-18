@@ -13,7 +13,7 @@ defineProps({
 
 <template>
     <AppLayout title="Alumnos">
-        <div class="-m-8 min-h-full bg-slate-950 p-8">
+        <div class="-m-8 min-h-full p-8">
 
             <!-- Header -->
             <div class="flex items-center justify-between mb-8">

@@ -17,7 +17,7 @@ const { calcularEdad, formatearFecha } = useAlumno()
 
 <template>
     <AppLayout title="Detalle Alumno">
-        <div class="-m-8 min-h-full bg-slate-950 p-8">
+        <div class="-m-8 min-h-full p-8">
 
             <!-- Header -->
             <div class="flex items-center gap-4 mb-8">

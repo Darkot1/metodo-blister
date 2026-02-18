@@ -17,9 +17,9 @@ const logout = () => {
 </script>
 
 <template>
-    <div class="flex min-h-screen bg-gray-50 text-gray-900 font-sans overflow-x-hidden">
+    <div class="flex min-h-screen bg-slate-950 text-gray-900 font-sans overflow-x-hidden">
 
-        <Head :title="title" />
+        <Head :title="title"  />
 
         <!-- Sidebar -->
         <aside :class="[
@@ -124,7 +124,7 @@ const logout = () => {
             isSidebarOpen ? 'ml-64' : 'ml-20'
         ]">
             <!-- Navbar -->
-            <header class="h-16 bg-slate-950/90 border-b border-white/10 flex items-center justify-between px-8">
+            <header class="h-16 bg-slate-900 border-b border-white/10 flex items-center justify-between px-8">
                 <h1 class="text-2xl font-bold text-white">
                     {{ title || 'Método Blister' }}
                 </h1>

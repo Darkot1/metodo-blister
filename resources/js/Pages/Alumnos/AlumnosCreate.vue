@@ -23,7 +23,7 @@ const submit = () => {
 
 <template>
     <AppLayout title="Registrar Alumno">
-        <div class="-m-8 min-h-full bg-slate-950 p-6">
+        <div class="-m-8 min-h-full p-6">
 
             <!-- Header -->
             <div class="flex items-center gap-4 mb-5">
