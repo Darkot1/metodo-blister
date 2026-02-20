@@ -1,8 +1,8 @@
 <script setup>
 import AppLayout from '@/Layouts/AppLayout.vue';
 import EstadoBadge from '@/Components/EstadoBadge.vue';
-import { Link, useForm } from '@inertiajs/vue3';
-import { PlusIcon, TableCellsIcon, MapPinIcon, TrashIcon } from '@heroicons/vue/24/outline';
+import { Link } from '@inertiajs/vue3';
+import { TableCellsIcon, PlusIcon } from '@heroicons/vue/24/outline';
 import { usePlan } from '@/Composables/usePlan';
 
 const { getFrequencia, formatearFecha, calcularDuracion } = usePlan();
@@ -13,9 +13,6 @@ defineProps({
         default: () => []
     }
 })
-
-const deleteForm = useForm({});
-
 
 </script>
 
@@ -46,6 +43,7 @@ const deleteForm = useForm({});
                     <p class="text-3xl font-semibold text-blue-300">{{planes.filter(p => p.estado === 'activo').length
                         }}</p>
                     <p class="text-slate-400 text-sm mt-1">Planes activos</p>
+                        
                 </div>
                 <div class="rounded-xl bg-white/5 border border-white/10 p-5">
                     <p class="text-3xl font-semibold text-yellow-300">{{planes.filter(p => p.estado ===
