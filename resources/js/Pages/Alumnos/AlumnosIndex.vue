@@ -2,6 +2,7 @@
 import AppLayout from '@/Layouts/AppLayout.vue';
 import EstadoBadge from '@/Components/EstadoBadge.vue';
 import { Link } from '@inertiajs/vue3';
+import { PlusIcon, UserGroupIcon } from '@heroicons/vue/24/outline';
 
 defineProps({
     alumnos: {
@@ -23,9 +24,7 @@ defineProps({
                 </div>
                 <Link :href="route('alumnos.create')"
                     class="inline-flex items-center gap-2 bg-blue-600 text-white px-6 py-3 rounded-xl font-semibold hover:bg-blue-500 transition shadow-lg shadow-blue-600/30">
-                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
-                    </svg>
+                    <PlusIcon class="w-4 h-4" />
                     Registrar alumno
                 </Link>
             </div>
@@ -55,10 +54,7 @@ defineProps({
                 <div v-if="alumnos.length === 0" class="py-24 text-center">
                     <div
                         class="mx-auto h-14 w-14 rounded-2xl bg-blue-600/20 border border-blue-500/30 flex items-center justify-center mb-5">
-                        <svg class="w-6 h-6 text-blue-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                d="M17 20h5v-2a4 4 0 00-4-4H6a4 4 0 00-4 4v2h5M12 12a4 4 0 100-8 4 4 0 000 8z" />
-                        </svg>
+                        <UserGroupIcon class="w-6 h-6 text-blue-300" />
                     </div>
                     <p class="text-slate-300 font-semibold text-lg">No hay alumnos registrados</p>
                     <p class="text-slate-500 text-sm mt-1">Registra tu primer alumno para comenzar</p>

@@ -1,7 +1,7 @@
 <script setup>
 import { ref } from 'vue';
 import { Head, Link, router, usePage } from '@inertiajs/vue3';
-
+import { XMarkIcon, Bars3Icon, ChartBarIcon, UserGroupIcon, Cog6ToothIcon, ArrowLeftOnRectangleIcon, ArrowUturnLeftIcon } from '@heroicons/vue/24/outline';
 
 defineProps({
     title: String,
@@ -19,7 +19,7 @@ const logout = () => {
 <template>
     <div class="flex min-h-screen bg-slate-950 text-gray-900 font-sans overflow-x-hidden">
 
-        <Head :title="title"  />
+        <Head :title="title" />
 
         <!-- Sidebar -->
         <aside :class="[
@@ -37,16 +37,8 @@ const logout = () => {
                 </div>
                 <button @click="isSidebarOpen = !isSidebarOpen"
                     class="text-blue-400 hover:text-blue-300 transition-colors p-1 flex-shrink-0">
-                    <svg v-if="isSidebarOpen" xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none"
-                        viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            d="M6 18L18 6M6 6l12 12" />
-                    </svg>
-                    <svg v-else xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24"
-                        stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            d="M4 6h16M4 12h8m-8 6h16" />
-                    </svg>
+                    <XMarkIcon v-if="isSidebarOpen" class="h-5 w-5" />
+                    <Bars3Icon v-else class="h-5 w-5" />
                 </button>
             </div>
 
@@ -62,10 +54,7 @@ const logout = () => {
                     <Link :href="route('dashboard')"
                         class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm text-gray-300 hover:bg-gray-700 hover:text-white transition-colors"
                         :class="{ 'bg-blue-600 text-white': route().current('dashboard') }">
-                        <svg class="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                d="M3 12l2-3m0 0l7-4 7 4M5 9v10a1 1 0 001 1h12a1 1 0 001-1V9m-9 11l4-4m0 0l4 4m-4-4v4" />
-                        </svg>
+                        <ChartBarIcon class="w-5 h-5 flex-shrink-0" />
                         <span v-if="isSidebarOpen" class="text-sm">Dashboard</span>
                     </Link>
                 </div>
@@ -79,11 +68,15 @@ const logout = () => {
                     <Link :href="route('alumnos.index')"
                         class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm text-gray-300 hover:bg-gray-700 hover:text-white transition-colors"
                         :class="{ 'bg-blue-600 text-white': route().current('alumnos.index') }">
-                        <svg class="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                d="M12 4.354a4 4 0 110 5.292M15 12H9m6 0a6 6 0 11-12 0 6 6 0 0112 0z" />
-                        </svg>
+                        <UserGroupIcon class="w-5 h-5 flex-shrink-0" />
                         <span v-if="isSidebarOpen" class="text-sm">Alumnos</span>
+                    </Link>
+
+                    <Link :href="route('ejercicios.index')"
+                        class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm text-gray-300 hover:bg-gray-700 hover:text-white transition-colors"
+                        :class="{ 'bg-blue-600 text-white': route().current('ejercicios.index') }">
+                        <UserGroupIcon class="w-5 h-5 flex-shrink-0" />
+                        <span v-if="isSidebarOpen" class="text-sm">Ejercicios</span>
                     </Link>
                 </div>
 
@@ -98,21 +91,13 @@ const logout = () => {
                 <Link v-if="isSidebarOpen" :href="route('profile.show')"
                     class="flex items-center gap-3 px-3 py-2 rounded-lg text-sm text-gray-300 hover:bg-gray-700 hover:text-white transition-colors"
                     :class="{ 'bg-blue-600 text-white': route().current('profile.*') }">
-                    <svg class="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-                    </svg>
+                    <Cog6ToothIcon class="w-5 h-5 flex-shrink-0" />
                     <span class="text-sm">Configuración</span>
                 </Link>
                 <button type="button"
                     class="w-full flex items-center gap-3 text-blue-400 hover:text-blue-300 transition-colors text-sm py-2 px-3 rounded-lg hover:bg-gray-700"
                     @click="logout">
-                    <svg class="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
-                    </svg>
+                    <ArrowLeftOnRectangleIcon class="w-5 h-5 flex-shrink-0" />
                     <span v-if="isSidebarOpen" class="text-sm">Cerrar sesión</span>
                 </button>
             </div>
@@ -129,10 +114,7 @@ const logout = () => {
                     {{ title || 'Método Blister' }}
                 </h1>
                 <a href="/" class="text-slate-400 hover:text-white transition-colors" aria-label="Ir a inicio">
-                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            d="M10 19l-7-7m0 0l7-7m-7 7h18" />
-                    </svg>
+                    <ArrowUturnLeftIcon class="w-6 h-6" />
                 </a>
             </header>
 

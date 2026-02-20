@@ -4,6 +4,7 @@ import EstadoBadge from '@/Components/EstadoBadge.vue';
 import InfoCard from '@/Components/InfoCard.vue';
 import { useAlumno } from '@/Composables/useAlumno';
 import { Link, useForm } from '@inertiajs/vue3';
+import { ChevronLeftIcon } from '@heroicons/vue/24/outline';
 
 const props = defineProps({
     alumno: {
@@ -30,9 +31,7 @@ const destroyAlumno = () => {
             <!-- Header -->
             <div class="flex items-center gap-4 mb-8">
                 <Link :href="route('alumnos.index')" class="text-slate-400 hover:text-white transition-colors">
-                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
-                    </svg>
+                    <ChevronLeftIcon class="w-6 h-6" />
                 </Link>
                 <div class="flex items-center gap-4 flex-1">
                     <div

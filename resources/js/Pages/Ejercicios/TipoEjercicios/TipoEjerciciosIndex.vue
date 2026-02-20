@@ -1,6 +1,7 @@
 <script setup>
 import AppLayout from '@/Layouts/AppLayout.vue';
 import { Link } from '@inertiajs/vue3';
+import { ChevronLeftIcon, PlusIcon, DocumentDuplicateIcon } from '@heroicons/vue/24/outline';
 
 defineProps({
     tipoEjercicios: {
@@ -16,15 +17,18 @@ defineProps({
 
             <!-- Header -->
             <div class="flex items-center justify-between mb-8">
-                <div>
-                    <p class="text-sm uppercase tracking-[0.3em] text-blue-300">Gestión</p>
-                    <h2 class="text-4xl font-display text-white">Tipos de Ejercicio</h2>
+                <div class="flex items-center gap-4">
+                    <Link :href="route('ejercicios.index')" class="text-slate-400 hover:text-white transition-colors">
+                        <ChevronLeftIcon class="w-6 h-6" />
+                    </Link>
+                    <div>
+                        <p class="text-sm uppercase tracking-[0.3em] text-blue-300">Gestión</p>
+                        <h2 class="text-4xl font-display text-white">Tipos de Ejercicio</h2>
+                    </div>
                 </div>
                 <Link :href="route('tipo-ejercicios.create')"
                     class="inline-flex items-center gap-2 bg-blue-600 text-white px-6 py-3 rounded-xl font-semibold hover:bg-blue-500 transition shadow-lg shadow-blue-600/30">
-                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
-                    </svg>
+                    <PlusIcon class="w-4 h-4" />
                     Crear tipo
                 </Link>
             </div>
@@ -49,10 +53,7 @@ defineProps({
                 <div v-if="tipoEjercicios.length === 0" class="py-24 text-center">
                     <div
                         class="mx-auto h-14 w-14 rounded-2xl bg-blue-600/20 border border-blue-500/30 flex items-center justify-center mb-5">
-                        <svg class="w-6 h-6 text-blue-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
-                        </svg>
+                        <DocumentDuplicateIcon class="w-6 h-6 text-blue-300" />
                     </div>
                     <p class="text-slate-300 font-semibold text-lg">No hay tipos de ejercicio registrados</p>
                     <p class="text-slate-500 text-sm mt-1">Crea el primer tipo para comenzar</p>

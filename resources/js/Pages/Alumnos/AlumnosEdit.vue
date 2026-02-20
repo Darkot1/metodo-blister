@@ -4,6 +4,7 @@ import FormInput from '@/Components/Form/FormInput.vue';
 import FormSelect from '@/Components/Form/FormSelect.vue';
 import FormTextarea from '@/Components/Form/FormTextarea.vue';
 import { Link, useForm } from '@inertiajs/vue3';
+import { ChevronLeftIcon } from '@heroicons/vue/24/outline';
 
 const props = defineProps({
     alumno: {
@@ -46,9 +47,7 @@ const submit = () => {
             <div class="flex items-center gap-6 mb-8 ">
                 <Link :href="route('alumnos.show', props.alumno.id)"
                     class="text-slate-400 hover:text-white transition-colors flex-shrink-0">
-                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
-                    </svg>
+                    <ChevronLeftIcon class="w-5 h-5" />
                 </Link>
                 <div class="flex items-center gap-5 flex-1 ">
                     <div

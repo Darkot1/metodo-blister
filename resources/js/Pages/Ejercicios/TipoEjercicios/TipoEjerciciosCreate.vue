@@ -3,6 +3,7 @@ import AppLayout from '@/Layouts/AppLayout.vue';
 import FormInput from '@/Components/Form/FormInput.vue';
 import FormSelect from '@/Components/Form/FormSelect.vue';
 import { useForm, Link } from '@inertiajs/vue3';
+import { ChevronLeftIcon } from '@heroicons/vue/24/outline';
 
 const form = useForm({
     nombre: '',
@@ -22,9 +23,7 @@ const submit = () => {
             <div class="flex items-center gap-4 mb-5">
                 <Link :href="route('tipo-ejercicios.index')"
                     class="text-slate-400 hover:text-white transition-colors flex-shrink-0">
-                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
-                    </svg>
+                    <ChevronLeftIcon class="w-5 h-5" />
                 </Link>
                 <div>
                     <p class="text-s uppercase tracking-[0.3em] text-blue-300">Nuevo</p>
