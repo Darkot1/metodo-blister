@@ -3,11 +3,12 @@
 namespace App\Models\Ejercicios;
 
 use App\Models\Ejercicios\Ejercicio;
-
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class TipoEjercicio extends Model
 {
+    use HasFactory;
     protected $table = 'tipo_ejercicios';
 
     protected $fillable = [

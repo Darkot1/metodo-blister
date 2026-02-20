@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Alumnos\AlumnoController;
 use App\Http\Controllers\Ejercicios\TipoEjercicioController;
+use App\Http\Controllers\Ejercicios\EjercicioController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -42,5 +43,15 @@ Route::middleware([
         Route::put('tipo-ejercicio/{tipoEjercicio}', 'update')->name('tipo-ejercicios.update');
         Route::delete('tipo-ejercicio/{tipoEjercicio}', 'destroy')->name('tipo-ejercicios.destroy');
     });
-    
+
+    // Rutas de ejercicios
+    Route::controller(EjercicioController::class)->group(function () {
+        Route::get('ejercicios', 'index')->name('ejercicios.index');
+        Route::get('ejercicio/registrar', 'create')->name('ejercicios.create');
+        Route::post('ejercicio/registrar', 'store')->name('ejercicios.store');
+        Route::get('ejercicio/{ejercicio}', 'show')->name('ejercicios.show');
+        Route::get('ejercicio/{ejercicio}/editar', 'edit')->name('ejercicios.edit');
+        Route::put('ejercicio/{ejercicio}', 'update')->name('ejercicios.update');
+        Route::delete('ejercicio/{ejercicio}', 'destroy')->name('ejercicios.destroy');
+    });
 });

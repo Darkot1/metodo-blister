@@ -14,7 +14,7 @@ const getBadgeClass = (estado) => {
 </script>
 
 <template>
-    <span :class="['text-xs font-semibold px-3 py-1 rounded-full capitalize', getBadgeClass(estado)]">
+    <span :class="['text-xs font-semibold px-3 py-2 rounded-full capitalize', getBadgeClass(estado)]">
         {{ estado.replace('_', ' ') }}
     </span>
 </template>
