@@ -16,11 +16,7 @@ defineProps({
 
 const deleteForm = useForm({});
 
-const deletePlan = (planId) => {
-    if (window.confirm('¿Seguro que quieres eliminar este plan? Esta acción no se puede deshacer.')) {
-        deleteForm.delete(route('planes-entrenamiento.destroy', planId));
-    }
-};
+
 </script>
 
 <template>
@@ -104,10 +100,14 @@ const deletePlan = (planId) => {
                                 Duración
                             </th>
                             <th
+                                class="px-6 py-4 text-left text-xs uppercase tracking-wider text-slate-500 font-semibold hidden sm:table-cell">
+                                Ver semanas
+                            </th>
+                            <th
                                 class="px-6 py-4 text-left text-xs uppercase tracking-wider text-slate-500 font-semibold">
                                 Estado
                             </th>
-                            <th class="px-6 py-4"></th>
+                            
                         </tr>
                     </thead>
                     <tbody class="divide-y divide-white/5">
@@ -137,15 +137,16 @@ const deletePlan = (planId) => {
                                 <p class="text-slate-400 text-sm font-medium">{{ calcularDuracion(plan.fecha_inicio,
                                     plan.fecha_fin) }}</p>
                             </td>
-                            <td class="px-6 py-4">
-                                <EstadoBadge :estado="plan.estado" />
-                            </td>
-                            <td class="px-6 py-4 text-right" @click.stop>
-                                <button @click="deletePlan(plan.id)" :disabled="deleteForm.processing"
-                                    class="text-red-400 hover:text-red-300 transition-colors disabled:opacity-50">
-                                    <TrashIcon class="w-4 h-4" />
+                            <td class="px-6 py-4 hidden sm:table-cell" @click.stop>
+                                <!-- colocar el index de semanas  -->
+                                <button 
+                                    class="text-green-400 hover:text-green-200 transition-colors disabled:opacity-50">
+                                    Ver semanas
                                 </button>
                             </td>
+                            <td class="px-6 py-4">
+                                <EstadoBadge :estado="plan.estado" />
+                            </td>                    
                         </tr>
                     </tbody>
                 </table>
