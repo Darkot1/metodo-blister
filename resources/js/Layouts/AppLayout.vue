@@ -1,7 +1,7 @@
 <script setup>
 import { ref } from 'vue';
 import { Head, Link, router, usePage } from '@inertiajs/vue3';
-import { XMarkIcon, Bars3Icon, ChartBarIcon, UserGroupIcon, Cog6ToothIcon, ArrowLeftOnRectangleIcon, ArrowUturnLeftIcon } from '@heroicons/vue/24/outline';
+import { XMarkIcon, Bars3Icon, ChartBarIcon, UserGroupIcon, Cog6ToothIcon, ArrowLeftOnRectangleIcon, HomeIcon } from '@heroicons/vue/24/outline';
 
 defineProps({
     title: String,
@@ -128,7 +128,7 @@ const logout = () => {
                     {{ title || 'Método Blister' }}
                 </h1>
                 <a href="/" class="text-slate-400 hover:text-white transition-colors" aria-label="Ir a inicio">
-                    <ArrowUturnLeftIcon class="w-6 h-6" />
+                    <HomeIcon class="w-6 h-6" />
                 </a>
             </header>
 
