@@ -80,6 +80,20 @@ const logout = () => {
                     </Link>
                 </div>
 
+                <!-- Sección Entrenamiento -->
+                <div>
+                    <p v-if="isSidebarOpen"
+                        class="text-xs uppercase tracking-wider text-gray-500 font-semibold px-3 mb-3">
+                        Entrenamiento
+                    </p>
+                    <Link :href="route('planes-entrenamiento.index')"
+                        class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm text-gray-300 hover:bg-gray-700 hover:text-white transition-colors"
+                        :class="{ 'bg-blue-600 text-white': route().current('planes-entrenamiento.*') }">
+                        <ChartBarIcon class="w-5 h-5 flex-shrink-0" />
+                        <span v-if="isSidebarOpen" class="text-sm">Planes</span>
+                    </Link>
+                </div>
+
             </nav>
 
             <!-- Footer -->
