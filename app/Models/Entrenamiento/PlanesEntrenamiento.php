@@ -23,13 +23,29 @@ class PlanesEntrenamiento extends Model
         'estado',
     ];
 
+    protected $casts = [
+        'fecha_inicio' => 'date',
+        'fecha_fin' => 'date',
+    ];
+
+
     public function alumno()
     {
         return $this->belongsTo(Alumno::class);
     }
 
-    //public function semanas()
-    //{
-    //    return $this->hasMany(SemanaEntrenamiento::class, 'plan_entrenamiento_id');
-    //}
+    public function sesiones()
+    {
+        return $this->hasMany(SesionesEntrenamiento::class, 'plan_entrenamiento_id');
+    }
+
+
+    // Calcular semanas 
+    public function getNumeroSemanasAttribute()
+    {
+        return max(
+            1,
+            $this->fecha_inicio->diffInWeeks($this->fecha_fin)
+        );
+    }
 }

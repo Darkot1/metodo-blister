@@ -41,7 +41,7 @@ class PlanesEntrenamientoController extends Controller
     public function store(PlanesEntrenamientoRequest $request)
     {
         PlanesEntrenamiento::create($request->validated());
-        
+
         return redirect()->route('planes-entrenamiento.index')
             ->with('message', 'Plan de entrenamiento creado exitosamente.');
     }
@@ -51,9 +51,11 @@ class PlanesEntrenamientoController extends Controller
      */
     public function show(PlanesEntrenamiento $planesEntrenamiento)
     {
-        $planesEntrenamiento->load('alumno');
+        $planesEntrenamiento->load('alumno', 'sesiones');
+        $planData = $planesEntrenamiento->toArray();
+        $planData['numero_semanas'] = $planesEntrenamiento->numero_semanas;
         return Inertia::render('Entrenamiento/PlanesEntrenamiento/PlanesEntrenamientoShow', [
-            'plan' => $planesEntrenamiento,
+            'plan' => $planData,
         ]);
     }
 

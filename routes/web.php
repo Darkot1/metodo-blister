@@ -4,6 +4,7 @@ use App\Http\Controllers\Alumnos\AlumnoController;
 use App\Http\Controllers\Ejercicios\TipoEjercicioController;
 use App\Http\Controllers\Ejercicios\EjercicioController;
 use App\Http\Controllers\Entrenamiento\PlanesEntrenamientoController;
+use App\Http\Controllers\Entrenamiento\SesionesEntrenamientoController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -65,5 +66,16 @@ Route::middleware([
         Route::get('plan-entrenamiento/{planesEntrenamiento}/editar', 'edit')->name('planes-entrenamiento.edit');
         Route::put('plan-entrenamiento/{planesEntrenamiento}', 'update')->name('planes-entrenamiento.update');
         Route::delete('plan-entrenamiento/{planesEntrenamiento}', 'destroy')->name('planes-entrenamiento.destroy');
+    });
+
+    // Rutas de sesiones de entrenamiento
+    Route::controller(SesionesEntrenamientoController::class)->group(function () {
+        Route::get('plan-entrenamiento/{plan}/sesiones', 'index')->name('sesiones-entrenamiento.index');
+        Route::get('plan-entrenamiento/{plan}/sesiones/crear', 'create')->name('sesiones-entrenamiento.create');
+        Route::post('plan-entrenamiento/{plan}/sesiones', 'store')->name('sesiones-entrenamiento.store');
+        //Route::get('sesion-entrenamiento/{sesionEntrenamiento}', 'show')->name('sesiones-entrenamiento.show');
+        Route::get('plan-entrenamiento/{plan}/sesiones/{sesion}/editar', 'edit')->name('sesiones-entrenamiento.edit');
+        Route::put('plan-entrenamiento/{plan}/sesiones/{sesion}', 'update')->name('sesiones-entrenamiento.update');
+        Route::delete('plan-entrenamiento/{plan}/sesiones/{sesion}', 'destroy')->name('sesiones-entrenamiento.destroy');
     });
 });
