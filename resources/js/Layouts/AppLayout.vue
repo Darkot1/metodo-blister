@@ -1,5 +1,6 @@
 <script setup>
-import { ref } from 'vue';
+import { computed, ref } from 'vue';
+import ToastMessage from '@/Components/Feedback/ToastMessage.vue';
 import { Head, Link, router, usePage } from '@inertiajs/vue3';
 import { XMarkIcon, Bars3Icon, ChartBarIcon, UserGroupIcon, Cog6ToothIcon, ArrowLeftOnRectangleIcon, HomeIcon } from '@heroicons/vue/24/outline';
 
@@ -8,6 +9,7 @@ defineProps({
 });
 
 const { props } = usePage();
+const flashMessage = computed(() => props.flash?.message || '');
 const user = props.auth?.user;
 const isSidebarOpen = ref(true);
 
@@ -20,6 +22,7 @@ const logout = () => {
     <div class="flex min-h-screen bg-slate-950 text-gray-900 font-sans overflow-x-hidden">
 
         <Head :title="title" />
+        <ToastMessage :message="flashMessage" />
 
         <!-- Sidebar -->
         <aside :class="[

@@ -1,9 +1,11 @@
- <script setup>
+<script setup>
 import AppLayout from '@/Layouts/AppLayout.vue';
 import InfoCard from '@/Components/InfoCard.vue';
 import EstadoBadge from '@/Components/EstadoBadge.vue';
+import ConfirmModal from '@/Components/Feedback/ConfirmModal.vue';
 import { Link, useForm } from '@inertiajs/vue3';
-import { ChevronLeftIcon, TrashIcon, PencilIcon } from '@heroicons/vue/24/outline';
+import { computed, ref } from 'vue';
+import { ChevronLeftIcon, TrashIcon, PencilIcon, PlusIcon } from '@heroicons/vue/24/outline';
 import { usePlan } from '@/Composables/usePlan';
 
 const { getFrequencia, formatearFecha, calcularDuracion } = usePlan();
@@ -15,12 +17,34 @@ const props = defineProps({
     }
 })
 
+const semanas = computed(() => {
+    const result = [];
+    for (let i = 1; i <= props.plan.numero_semanas; i++) {
+        result.push({
+            numero: i,
+            sesiones: props.plan.sesiones.filter(s => s.numero_semana === i)
+        });
+    }
+    return result;
+});
+
 const deleteForm = useForm({});
+const showConfirm = ref(false);
 
 const destroyPlan = () => {
-    if (window.confirm('¿Seguro que quieres eliminar este plan? Esta acción no se puede deshacer.')) {
-        deleteForm.delete(route('planes-entrenamiento.destroy', props.plan.id));
-    }
+    showConfirm.value = true;
+};
+
+const closeConfirm = () => {
+    showConfirm.value = false;
+};
+
+const confirmDelete = () => {
+    deleteForm.delete(route('planes-entrenamiento.destroy', props.plan.id), {
+        onFinish: () => {
+            closeConfirm();
+        }
+    });
 };
 
 const calcularDuracionPlan = () => {
@@ -28,8 +52,12 @@ const calcularDuracionPlan = () => {
 };
 </script>
 
+
 <template>
     <AppLayout title="Detalle Plan de Entrenamiento">
+        <ConfirmModal :show="showConfirm" title="Eliminar plan"
+            message="Estas seguro de eliminar este plan? Esta accion no se puede deshacer." confirm-text="Eliminar"
+            :loading="deleteForm.processing" @confirm="confirmDelete" @cancel="closeConfirm" />
         <div class="-m-8 min-h-full p-8">
 
             <!-- Header -->
@@ -116,6 +144,31 @@ const calcularDuracionPlan = () => {
                     <!-- Objetivo -->
                     <InfoCard v-if="props.plan.objetivo" title="Objetivo">
                         <p class="text-slate-300 whitespace-pre-wrap leading-relaxed">{{ props.plan.objetivo }}</p>
+                    </InfoCard>
+
+                    <InfoCard title="Sesiones por Semana">
+                        <div v-if="props.plan.sesiones.length === 0" class="text-slate-400 py-8 text-center">
+                            <p>No hay sesiones creadas aún</p>
+                            <p class="text-sm mt-2">Haz clic en "Agregar Sesiones" para comenzar</p>
+                        </div>
+
+                        <div v-else v-for="semana in semanas" :key="semana.numero" class="mb-6">
+                            <h3 class="text-white font-semibold mb-2">Semana {{ semana.numero }}</h3>
+                            <p class="text-slate-400 text-sm mb-3">
+                                Sesiones: {{ semana.sesiones.length }}/{{ props.plan.frecuencia_semanal }}
+                            </p>
+
+                            <ul v-if="semana.sesiones.length > 0" class="space-y-1">
+                                <li v-for="sesion in semana.sesiones" :key="sesion.id"
+                                    class="text-slate-300 flex items-center gap-2">
+                                    <span class="text-blue-400">•</span>
+                                    {{ sesion.nombre }} - <span class="text-slate-500">{{ sesion.dia_semana }}</span>
+                                </li>
+                            </ul>
+                            <p v-else class="text-slate-500 text-sm italic">
+                                Sin sesiones en esta semana
+                            </p>
+                        </div>
                     </InfoCard>
 
                     <!-- Información del Sistema -->

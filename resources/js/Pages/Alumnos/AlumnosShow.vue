@@ -2,8 +2,10 @@
 import AppLayout from '@/Layouts/AppLayout.vue';
 import EstadoBadge from '@/Components/EstadoBadge.vue';
 import InfoCard from '@/Components/InfoCard.vue';
+import ConfirmModal from '@/Components/Feedback/ConfirmModal.vue';
 import { useAlumno } from '@/Composables/useAlumno';
 import { Link, useForm } from '@inertiajs/vue3';
+import { ref } from 'vue';
 import { ChevronLeftIcon } from '@heroicons/vue/24/outline';
 
 const props = defineProps({
@@ -16,16 +18,30 @@ const props = defineProps({
 const { calcularEdad, formatearFecha } = useAlumno()
 
 const deleteForm = useForm({});
+const showConfirm = ref(false);
 
 const destroyAlumno = () => {
-    if (window.confirm('¿Seguro que quieres eliminar este alumno? Esta acción no se puede deshacer.')) {
-        deleteForm.delete(route('alumnos.destroy', props.alumno.id));
-    }
+    showConfirm.value = true;
+};
+
+const closeConfirm = () => {
+    showConfirm.value = false;
+};
+
+const confirmDelete = () => {
+    deleteForm.delete(route('alumnos.destroy', props.alumno.id), {
+        onFinish: () => {
+            closeConfirm();
+        }
+    });
 };
 </script>
 
 <template>
     <AppLayout title="Detalle Alumno">
+        <ConfirmModal :show="showConfirm" title="Eliminar alumno"
+            message="Estas seguro de eliminar este alumno? Esta accion no se puede deshacer." confirm-text="Eliminar"
+            :loading="deleteForm.processing" @confirm="confirmDelete" @cancel="closeConfirm" />
         <div class="-m-8 min-h-full p-8">
 
             <!-- Header -->

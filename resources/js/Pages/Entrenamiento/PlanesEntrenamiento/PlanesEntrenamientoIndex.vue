@@ -41,9 +41,9 @@ defineProps({
                 </div>
                 <div class="rounded-xl bg-white/5 border border-white/10 p-5">
                     <p class="text-3xl font-semibold text-blue-300">{{planes.filter(p => p.estado === 'activo').length
-                        }}</p>
+                    }}</p>
                     <p class="text-slate-400 text-sm mt-1">Planes activos</p>
-                        
+
                 </div>
                 <div class="rounded-xl bg-white/5 border border-white/10 p-5">
                     <p class="text-3xl font-semibold text-yellow-300">{{planes.filter(p => p.estado ===
@@ -105,7 +105,7 @@ defineProps({
                                 class="px-6 py-4 text-left text-xs uppercase tracking-wider text-slate-500 font-semibold">
                                 Estado
                             </th>
-                            
+
                         </tr>
                     </thead>
                     <tbody class="divide-y divide-white/5">
@@ -116,7 +116,7 @@ defineProps({
                                 <div>
                                     <p class="font-semibold text-white">{{ plan.nombre }}</p>
                                     <p class="text-xs text-slate-500 mt-0.5">{{ getFrequencia(plan.frecuencia_semanal)
-                                    }} semanal</p>
+                                        }} semanal</p>
                                 </div>
                             </td>
                             <td class="px-6 py-4 hidden md:table-cell">
@@ -136,15 +136,14 @@ defineProps({
                                     plan.fecha_fin) }}</p>
                             </td>
                             <td class="px-6 py-4 hidden sm:table-cell" @click.stop>
-                                <!-- colocar el index de semanas  -->
-                                <button 
-                                    class="text-green-400 hover:text-green-200 transition-colors disabled:opacity-50">
-                                    Ver semanas
-                                </button>
+                                <Link :href="route('sesiones-entrenamiento.index', plan.id)"
+                                    class="text-green-400 hover:text-green-200 transition-colors">
+                                    Ver sesiones
+                                </Link>
                             </td>
                             <td class="px-6 py-4">
                                 <EstadoBadge :estado="plan.estado" />
-                            </td>                    
+                            </td>
                         </tr>
                     </tbody>
                 </table>

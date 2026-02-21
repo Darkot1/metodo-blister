@@ -2,7 +2,9 @@
 import AppLayout from '@/Layouts/AppLayout.vue';
 import EstadoBadge from '@/Components/EstadoBadge.vue';
 import InfoCard from '@/Components/InfoCard.vue';
+import ConfirmModal from '@/Components/Feedback/ConfirmModal.vue';
 import { Link, useForm } from '@inertiajs/vue3';
+import { ref } from 'vue';
 import { ChevronLeftIcon, PlayIcon, TrashIcon } from '@heroicons/vue/24/outline';
 
 const props = defineProps({
@@ -13,11 +15,22 @@ const props = defineProps({
 })
 
 const deleteForm = useForm({});
+const showConfirm = ref(false);
 
 const destroyEjercicio = () => {
-    if (window.confirm('¿Seguro que quieres eliminar este ejercicio? Esta acción no se puede deshacer.')) {
-        deleteForm.delete(route('ejercicios.destroy', props.ejercicio.id));
-    }
+    showConfirm.value = true;
+};
+
+const closeConfirm = () => {
+    showConfirm.value = false;
+};
+
+const confirmDelete = () => {
+    deleteForm.delete(route('ejercicios.destroy', props.ejercicio.id), {
+        onFinish: () => {
+            closeConfirm();
+        }
+    });
 };
 
 const getNivelColor = (nivel) => {
@@ -50,6 +63,9 @@ const formatearFecha = (fecha) => {
 
 <template>
     <AppLayout title="Detalle Ejercicio">
+        <ConfirmModal :show="showConfirm" title="Eliminar ejercicio"
+            message="Estas seguro de eliminar este ejercicio? Esta accion no se puede deshacer." confirm-text="Eliminar"
+            :loading="deleteForm.processing" @confirm="confirmDelete" @cancel="closeConfirm" />
         <div class="-m-8 min-h-full p-8">
 
             <!-- Header -->
