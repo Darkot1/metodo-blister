@@ -10,6 +10,10 @@ const props = defineProps({
     plan: {
         type: Object,
         required: true
+    },
+    muscleGroups: {
+        type: Array,
+        required: true
     }
 })
 
@@ -46,7 +50,9 @@ const goBack = () => {
                 <!-- Columna derecha - Formulario -->
                 <div class="lg:col-span-2">
                     <SesionForm :plan="props.plan" :form="form" :sesionesCount="sesionesCount"
-                        :canAddSession="canAddSession" :isDayAlreadyUsed="isDayAlreadyUsed" @submit="submitForm"
+                        :canAddSession="canAddSession" :isDayAlreadyUsed="isDayAlreadyUsed" 
+                        :muscleGroups="props.muscleGroups"
+                        @submit="submitForm"
                         @go-back="goBack" />
                 </div>
 

@@ -28,7 +28,7 @@ class EjercicioRequest extends FormRequest
                 Rule::unique('ejercicios', 'nombre')->ignore($this->route('ejercicio')?->id)
             ],
             'descripcion' => 'nullable|string',
-            'grupo_muscular' => 'required|string|max:100',
+            'muscle_group_id' => 'required|exists:muscle_groups,id',
             'tipo_ejercicio_id' => 'required|exists:tipo_ejercicios,id',
             'nivel' => 'required|in:principiante,intermedio,avanzado',
             'video_url' => 'nullable|url|max:500',
@@ -45,7 +45,8 @@ class EjercicioRequest extends FormRequest
             'nombre.required' => 'El nombre del ejercicio es obligatorio',
             'nombre.max' => 'El nombre no puede exceder 255 caracteres',
             'nombre.unique' => 'Ya existe un ejercicio con este nombre. Por favor usa otro',
-            'grupo_muscular.required' => 'El grupo muscular es obligatorio',
+            'muscle_group_id.required' => 'El grupo muscular es obligatorio',
+            'muscle_group_id.exists' => 'El grupo muscular seleccionado no es válido',
             'tipo_ejercicio_id.required' => 'Debes seleccionar un tipo de ejercicio',
             'tipo_ejercicio_id.exists' => 'El tipo de ejercicio seleccionado no es válido',
             'nivel.required' => 'El nivel es obligatorio',

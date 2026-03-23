@@ -10,13 +10,17 @@ const props = defineProps({
     tiposEjercicio: {
         type: Array,
         default: () => []
+    },
+    muscleGroups: {
+        type: Array,
+        default: () => []
     }
 })
 
 const form = useForm({
     nombre: '',
     descripcion: '',
-    grupo_muscular: '',
+    muscle_group_id: '',
     tipo_ejercicio_id: '',
     nivel: '',
     video_url: '',
@@ -67,8 +71,14 @@ const submit = () => {
                             </option>
                         </FormSelect>
 
-                        <FormInput id="grupo_muscular" v-model="form.grupo_muscular" label="Grupo muscular"
-                            placeholder="ej: Pecho, Piernas, Espalda" :error="form.errors.grupo_muscular" />
+                        <FormSelect id="muscle_group_id" v-model="form.muscle_group_id" label="Grupo muscular"
+                            :error="form.errors.muscle_group_id">
+                            <option value="" disabled class="bg-slate-900">Seleccionar...</option>
+                            <option v-for="group in muscleGroups" :key="group.id" :value="group.id"
+                                class="bg-slate-900">
+                                {{ group.nombre }}
+                            </option>
+                        </FormSelect>
 
                         <FormSelect id="nivel" v-model="form.nivel" label="Nivel de dificultad"
                             :error="form.errors.nivel">

@@ -15,7 +15,6 @@
                 $table->id();
                 $table->foreignId('plan_entrenamiento_id')->constrained('planes_entrenamientos')->onDelete('cascade');
                 $table->integer('numero_semana');
-                $table->string('nombre');
                 $table->string('dia_semana');
                 $table->timestamps();
             });

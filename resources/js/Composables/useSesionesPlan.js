@@ -1,11 +1,11 @@
-import { computed, reactive } from "vue";
+import { computed } from "vue";
 import { useForm } from "@inertiajs/vue3";
 
 export function useSesionesPlan(plan) {
     const form = useForm({
-        nombre: "",
         dia_semana: "",
         numero_semana: 1,
+        muscle_group_id: [],
     });
 
     const sesionesCount = computed(() => {
@@ -36,7 +36,13 @@ export function useSesionesPlan(plan) {
     });
 
     const submitForm = () => {
-        if (!form.nombre || !form.dia_semana) {
+        const selectedMuscleGroups = Array.isArray(form.muscle_group_id)
+            ? form.muscle_group_id
+            : form.muscle_group_id
+              ? [form.muscle_group_id]
+              : [];
+
+        if (!form.dia_semana || selectedMuscleGroups.length === 0) {
             alert("Por favor completa todos los campos.");
             return;
         }
@@ -44,6 +50,15 @@ export function useSesionesPlan(plan) {
         if (!canAddSession.value) {
             alert(
                 `Ya has alcanzado el máximo de ${plan.frecuencia_semanal} sesiones para la semana ${form.numero_semana}.`,
+            );
+            return;
+        }
+
+        const maxSesiones = plan?.frecuencia_semanal || 0;
+        if (sesionesCount.value + 1 > maxSesiones) {
+            const disponibles = Math.max(maxSesiones - sesionesCount.value, 0);
+            alert(
+                `Solo puedes agregar ${disponibles} sesión(es) más en la semana ${form.numero_semana}.`,
             );
             return;
         }
@@ -57,8 +72,8 @@ export function useSesionesPlan(plan) {
 
         form.post(route("sesiones-entrenamiento.store", plan.id), {
             onSuccess: () => {
-                form.nombre = "";
                 form.dia_semana = "";
+                form.muscle_group_id = [];
             },
         });
     };

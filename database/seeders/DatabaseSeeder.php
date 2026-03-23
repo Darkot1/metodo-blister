@@ -3,6 +3,9 @@
 namespace Database\Seeders;
 
 use App\Models\User;
+use Database\Seeders\MuscleGroupSeeder;
+use Database\Seeders\TipoEjercicioSeeder;
+use Database\Seeders\EjercicioSeeder;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
@@ -17,11 +20,21 @@ class DatabaseSeeder extends Seeder
     {
         // User::factory(10)->create();
 
-        User::factory()->create([
-            'name' => 'entrenador de prueba',
-            'email' => 'entrenador@blister.com',
-            'role' => 'entrenador',
-            'password' => bcrypt('entrenador'),
+        User::firstOrCreate(
+            ['email' => 'entrenador@blister.com'],
+            [
+                'name' => 'entrenador de prueba',
+                'email' => 'entrenador@blister.com',
+                'role' => 'entrenador',
+                'password' => bcrypt('entrenador'),
+            ]
+        );
+
+        // Seeders de datos base
+        $this->call([
+            MuscleGroupSeeder::class,
+            TipoEjercicioSeeder::class,
+            EjercicioSeeder::class,
         ]);
     }
 }

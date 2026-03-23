@@ -121,8 +121,9 @@ const formatearFecha = (fecha) => {
                             </div>
                             <div>
                                 <p class="text-s text-slate-500 mb-2">Grupo Muscular</p>
-                                <p class="text-white font-medium text-lg capitalize">{{ ejercicio.grupo_muscular || '—'
-                                }}</p>
+                                <p class="text-white font-medium text-lg capitalize">{{ ejercicio.muscle_group?.nombre
+                                    || '—'
+                                    }}</p>
                             </div>
                         </div>
                     </InfoCard>

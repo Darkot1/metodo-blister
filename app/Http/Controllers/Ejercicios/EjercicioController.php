@@ -15,7 +15,7 @@ class EjercicioController extends Controller
      */
     public function index()
     {
-        $ejercicios = Ejercicio::with('tipoEjercicio')->get();
+        $ejercicios = Ejercicio::with(['tipoEjercicio', 'muscleGroup'])->get();
         return Inertia::render('Ejercicios/EjerciciosIndex', compact('ejercicios'));
     }
 
@@ -25,7 +25,8 @@ class EjercicioController extends Controller
     public function create()
     {
         $tiposEjercicio = TipoEjercicio::where('estado', 'activo')->get();
-        return Inertia::render('Ejercicios/EjerciciosCreate', compact('tiposEjercicio'));
+        $muscleGroups = \App\Models\Entrenamiento\MuscleGroup::all();
+        return Inertia::render('Ejercicios/EjerciciosCreate', compact('tiposEjercicio', 'muscleGroups'));
     }
 
     /**
@@ -43,7 +44,7 @@ class EjercicioController extends Controller
      */
     public function show(Ejercicio $ejercicio)
     {
-        $ejercicio->load('tipoEjercicio');
+        $ejercicio->load(['tipoEjercicio', 'muscleGroup']);
         return Inertia::render('Ejercicios/EjerciciosShow', compact('ejercicio'));
     }
 
@@ -52,9 +53,10 @@ class EjercicioController extends Controller
      */
     public function edit(Ejercicio $ejercicio)
     {
-        $ejercicio->load('tipoEjercicio');
+        $ejercicio->load(['tipoEjercicio', 'muscleGroup']);
         $tiposEjercicio = TipoEjercicio::where('estado', 'activo')->get();
-        return Inertia::render('Ejercicios/EjerciciosEdit', compact('ejercicio', 'tiposEjercicio'));
+        $muscleGroups = \App\Models\Entrenamiento\MuscleGroup::all();
+        return Inertia::render('Ejercicios/EjerciciosEdit', compact('ejercicio', 'tiposEjercicio', 'muscleGroups'));
     }
 
     /**

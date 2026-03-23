@@ -134,7 +134,7 @@ const getNivelLabel = (nivel) => {
                                 <p class="text-slate-400">{{ ejercicio.tipo_ejercicio?.nombre || '—' }}</p>
                             </td>
                             <td class="px-6 py-4 hidden lg:table-cell">
-                                <p class="text-slate-400 capitalize">{{ ejercicio.grupo_muscular || '—' }}</p>
+                                <p class="text-slate-400 capitalize">{{ ejercicio.muscle_group?.nombre || '—' }}</p>
                             </td>
                             <td class="px-6 py-4">
                                 <span :class="['font-semibold capitalize', getNivelColor(ejercicio.nivel)]">

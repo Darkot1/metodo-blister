@@ -1,6 +1,7 @@
 <script setup>
 import AppLayout from '@/Layouts/AppLayout.vue';
 import InfoCard from '@/Components/InfoCard.vue';
+import MuscleSelector from '@/Components/Entrenamiento/MuscleSelector.vue';
 import { useForm } from '@inertiajs/vue3';
 import { computed } from 'vue';
 import { ChevronLeftIcon } from '@heroicons/vue/24/outline';
@@ -16,13 +17,17 @@ const props = defineProps({
     sesion: {
         type: Object,
         required: true
+    },
+    muscleGroups: {
+        type: Array,
+        required: true
     }
 })
 
 const form = useForm({
-    nombre: props.sesion.nombre || '',
     dia_semana: props.sesion.dia_semana || '',
     numero_semana: props.sesion.numero_semana || 1,
+    muscle_group_id: props.sesion.muscle_group_ids || (props.sesion.muscle_group_id ? [props.sesion.muscle_group_id] : []),
 });
 
 
@@ -55,13 +60,24 @@ const isDayAlreadyUsed = computed(() => {
 });
 
 const submitForm = () => {
-    if (!form.nombre || !form.dia_semana) {
+    const selectedIds = Array.isArray(form.muscle_group_id)
+        ? form.muscle_group_id
+        : (form.muscle_group_id ? [form.muscle_group_id] : []);
+
+    if (!form.dia_semana || selectedIds.length === 0) {
         alert('Por favor completa todos los campos.');
         return;
     }
 
     if (!canAddSession.value) {
         alert(`Ya has alcanzado el máximo de ${props.plan.frecuencia_semanal} sesiones para la semana ${form.numero_semana}.`);
+        return;
+    }
+
+    const maxSesiones = props.plan?.frecuencia_semanal || 0;
+    if (sesionesCount.value + 1 > maxSesiones) {
+        const disponibles = Math.max(maxSesiones - sesionesCount.value, 0);
+        alert(`Solo puedes guardar ${disponibles} sesión(es) más en la semana ${form.numero_semana}.`);
         return;
     }
 
@@ -127,54 +143,54 @@ const goBack = () => {
                     <InfoCard title="Editar Sesión">
                         <form @submit.prevent="submitForm" class="space-y-6">
 
-                            <!-- Seleccionar Semana -->
-                            <div>
-                                <label class="block text-sm font-semibold text-slate-300 mb-2">
-                                    Semana <span class="text-red-400">*</span>
-                                </label>
-                                <select v-model.number="form.numero_semana"
-                                    class="w-full px-4 py-3 rounded-lg bg-slate-700 border border-slate-600 text-white cursor-pointer focus:outline-none focus:border-blue-500">
-                                    <option v-for="i in props.plan.numero_semanas" :key="i" :value="i">
-                                        Semana {{ i }}
-                                    </option>
-                                </select>
-                                <p class="text-slate-400 text-sm mt-2">
-                                    Sesiones en esta semana: {{ sesionesCountTotal }}/{{ props.plan.frecuencia_semanal
-                                    }}
-                                </p>
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                <!-- Seleccionar Semana -->
+                                <div>
+                                    <label class="block text-sm font-semibold text-slate-300 mb-2">
+                                        Semana <span class="text-red-400">*</span>
+                                    </label>
+                                    <select v-model.number="form.numero_semana"
+                                        class="w-full px-4 py-3 rounded-lg bg-slate-700 border border-slate-600 text-white cursor-pointer focus:outline-none focus:border-blue-500">
+                                        <option v-for="i in props.plan.numero_semanas" :key="i" :value="i">
+                                            Semana {{ i }}
+                                        </option>
+                                    </select>
+                                    <p class="text-slate-400 text-sm mt-2">
+                                        Sesiones en esta semana: {{ sesionesCountTotal }}/{{
+                                            props.plan.frecuencia_semanal
+                                        }}
+                                    </p>
+                                </div>
+
+                                <!-- Día de la Semana -->
+                                <div>
+                                    <label class="block text-sm font-semibold text-slate-300 mb-2">
+                                        Día de la Semana <span class="text-red-400">*</span>
+                                    </label>
+                                    <select v-model="form.dia_semana"
+                                        class="w-full px-4 py-3 rounded-lg bg-slate-700 border border-slate-600 text-white cursor-pointer focus:outline-none focus:border-blue-500">
+                                        <option value="">Seleccionar día</option>
+                                        <option value="Lunes">Lunes</option>
+                                        <option value="Martes">Martes</option>
+                                        <option value="Miércoles">Miércoles</option>
+                                        <option value="Jueves">Jueves</option>
+                                        <option value="Viernes">Viernes</option>
+                                        <option value="Sábado">Sábado</option>
+                                        <option value="Domingo">Domingo</option>
+                                    </select>
+                                    <p v-if="form.errors.dia_semana" class="text-red-400 text-sm mt-2">{{
+                                        form.errors.dia_semana }}</p>
+                                    <p v-if="isDayAlreadyUsed" class="text-amber-400 text-sm mt-2">
+                                        ⚠️ Ya existe una sesión para el {{ form.dia_semana }} en esta semana
+                                    </p>
+                                </div>
                             </div>
 
-                            <!-- Nombre de la Sesión -->
+                            <!-- Seleccionar Grupo Muscular -->
                             <div>
-                                <label class="block text-sm font-semibold text-slate-300 mb-2">
-                                    Nombre de la Sesión <span class="text-red-400">*</span>
-                                </label>
-                                <input v-model="form.nombre" type="text" placeholder="Ej: Pecho y Tríceps"
-                                    class="w-full px-4 py-3 rounded-lg bg-slate-700 border border-slate-600 text-white placeholder-slate-500 focus:outline-none focus:border-blue-500" />
-                                <p v-if="form.errors.nombre" class="text-red-400 text-sm mt-2">{{ form.errors.nombre }}
-                                </p>
-                            </div>
-
-                            <!-- Día de la Semana -->
-                            <div>
-                                <label class="block text-sm font-semibold text-slate-300 mb-2">
-                                    Día de la Semana <span class="text-red-400">*</span>
-                                </label>
-                                <select v-model="form.dia_semana"
-                                    class="w-full px-4 py-3 rounded-lg bg-slate-700 border border-slate-600 text-white cursor-pointer focus:outline-none focus:border-blue-500">
-                                    <option value="">Seleccionar día</option>
-                                    <option value="Lunes">Lunes</option>
-                                    <option value="Martes">Martes</option>
-                                    <option value="Miércoles">Miércoles</option>
-                                    <option value="Jueves">Jueves</option>
-                                    <option value="Viernes">Viernes</option>
-                                    <option value="Sábado">Sábado</option>
-                                    <option value="Domingo">Domingo</option>
-                                </select>
-                                <p v-if="form.errors.dia_semana" class="text-red-400 text-sm mt-2">{{
-                                    form.errors.dia_semana }}</p>
-                                <p v-if="isDayAlreadyUsed" class="text-amber-400 text-sm mt-2">
-                                    ⚠️ Ya existe una sesión para el {{ form.dia_semana }} en esta semana
+                                <MuscleSelector v-model="form.muscle_group_id" :muscle-groups="props.muscleGroups" />
+                                <p v-if="form.errors.muscle_group_id" class="text-red-400 text-sm mt-2">
+                                    {{ form.errors.muscle_group_id }}
                                 </p>
                             </div>
 

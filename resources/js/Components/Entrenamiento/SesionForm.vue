@@ -1,5 +1,6 @@
 <script setup>
 import InfoCard from '@/Components/InfoCard.vue';
+import MuscleSelector from '@/Components/Entrenamiento/MuscleSelector.vue';
 
 const props = defineProps({
     plan: {
@@ -21,6 +22,10 @@ const props = defineProps({
     isDayAlreadyUsed: {
         type: Boolean,
         required: true
+    },
+    muscleGroups: {
+        type: Array,
+        required: true
     }
 })
 
@@ -35,53 +40,52 @@ const handleSubmit = () => {
     <InfoCard title="Crear Nueva Sesión">
         <form @submit.prevent="handleSubmit" class="space-y-6">
 
-            <!-- Seleccionar Semana -->
-            <div>
-                <label class="block text-sm font-semibold text-slate-300 mb-2">
-                    Semana <span class="text-red-400">*</span>
-                </label>
-                <select v-model.number="props.form.numero_semana"
-                    class="w-full px-4 py-3 rounded-lg bg-slate-700 border border-slate-600 text-white cursor-pointer focus:outline-none focus:border-blue-500">
-                    <option v-for="i in props.plan.numero_semanas" :key="i" :value="i">
-                        Semana {{ i }}
-                    </option>
-                </select>
-                <p class="text-slate-400 text-sm mt-2">
-                    Sesiones en esta semana: {{ sesionesCount }}/{{ props.plan.frecuencia_semanal }}
-                </p>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <!-- Seleccionar Semana -->
+                <div>
+                    <label class="block text-sm font-semibold text-slate-300 mb-2">
+                        Semana <span class="text-red-400">*</span>
+                    </label>
+                    <select v-model.number="props.form.numero_semana"
+                        class="w-full px-4 py-3 rounded-lg bg-slate-700 border border-slate-600 text-white cursor-pointer focus:outline-none focus:border-blue-500">
+                        <option v-for="i in props.plan.numero_semanas" :key="i" :value="i">
+                            Semana {{ i }}
+                        </option>
+                    </select>
+                    <p class="text-slate-400 text-sm mt-2">
+                        Sesiones en esta semana: {{ sesionesCount }}/{{ props.plan.frecuencia_semanal }}
+                    </p>
+                </div>
+
+                <!-- Día de la Semana -->
+                <div>
+                    <label class="block text-sm font-semibold text-slate-300 mb-2">
+                        Día de la Semana <span class="text-red-400">*</span>
+                    </label>
+                    <select v-model="props.form.dia_semana"
+                        class="w-full px-4 py-3 rounded-lg bg-slate-700 border border-slate-600 text-white cursor-pointer focus:outline-none focus:border-blue-500">
+                        <option value="">Seleccionar día</option>
+                        <option value="Lunes">Lunes</option>
+                        <option value="Martes">Martes</option>
+                        <option value="Miércoles">Miércoles</option>
+                        <option value="Jueves">Jueves</option>
+                        <option value="Viernes">Viernes</option>
+                        <option value="Sábado">Sábado</option>
+                        <option value="Domingo">Domingo</option>
+                    </select>
+                    <p v-if="props.form.errors.dia_semana" class="text-red-400 text-sm mt-2">{{
+                        props.form.errors.dia_semana }}</p>
+                    <p v-if="isDayAlreadyUsed" class="text-amber-400 text-sm mt-2">
+                        ⚠️ Ya existe una sesión para el {{ props.form.dia_semana }} en esta semana
+                    </p>
+                </div>
             </div>
 
-            <!-- Nombre de la Sesión -->
+            <!-- Seleccionar Grupo Muscular -->
             <div>
-                <label class="block text-sm font-semibold text-slate-300 mb-2">
-                    Nombre de la Sesión <span class="text-red-400">*</span>
-                </label>
-                <input v-model="props.form.nombre" type="text" placeholder="Ej: Pecho y Tríceps"
-                    class="w-full px-4 py-3 rounded-lg bg-slate-700 border border-slate-600 text-white placeholder-slate-500 focus:outline-none focus:border-blue-500" />
-                <p v-if="props.form.errors.nombre" class="text-red-400 text-sm mt-2">{{ props.form.errors.nombre }}
-                </p>
-            </div>
-
-            <!-- Día de la Semana -->
-            <div>
-                <label class="block text-sm font-semibold text-slate-300 mb-2">
-                    Día de la Semana <span class="text-red-400">*</span>
-                </label>
-                <select v-model="props.form.dia_semana"
-                    class="w-full px-4 py-3 rounded-lg bg-slate-700 border border-slate-600 text-white cursor-pointer focus:outline-none focus:border-blue-500">
-                    <option value="">Seleccionar día</option>
-                    <option value="Lunes">Lunes</option>
-                    <option value="Martes">Martes</option>
-                    <option value="Miércoles">Miércoles</option>
-                    <option value="Jueves">Jueves</option>
-                    <option value="Viernes">Viernes</option>
-                    <option value="Sábado">Sábado</option>
-                    <option value="Domingo">Domingo</option>
-                </select>
-                <p v-if="props.form.errors.dia_semana" class="text-red-400 text-sm mt-2">{{
-                    props.form.errors.dia_semana }}</p>
-                <p v-if="isDayAlreadyUsed" class="text-amber-400 text-sm mt-2">
-                    ⚠️ Ya existe una sesión para el {{ props.form.dia_semana }} en esta semana
+                <MuscleSelector v-model="props.form.muscle_group_id" :muscle-groups="props.muscleGroups" />
+                <p v-if="props.form.errors.muscle_group_id" class="text-red-400 text-sm mt-2">
+                    {{ props.form.errors.muscle_group_id }}
                 </p>
             </div>
 
